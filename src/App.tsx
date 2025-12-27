@@ -75,9 +75,9 @@ function App() {
         <section className="form-section">
           <h2 className="section-title">YOUR GIFT KEYWORD</h2>
           <p className="section-description">
-            준비한 선물을 가장 잘 표현하는 <strong>키워드 3개를 적어주세요.</strong>
+            준비한 선물을 가장 잘 표현하는 키워드와 물건을 적어주세요.
           </p>
-          <p className="section-hint">예: 따뜻함 - 목도리 / 달콤함 - 초콜릿</p>
+          <p className="section-hint">예: 따뜻함 – 목도리 / 달콤함 – 초콜릿</p>
           <input
             type="text"
             value={formData.giftKeyword}
@@ -92,9 +92,9 @@ function App() {
         <section className="form-section">
           <h2 className="section-title">A MESSAGE</h2>
           <p className="section-description">
-            이 선물을 받게 될 분에게 전하고 싶은 <strong>따뜻한 한마디</strong>를 남겨주세요.
+            이 선물을 받게 될 분에게 전하고 싶은 따뜻한 한마디를 남겨주세요.
           </p>
-          <p className="section-hint">이름은 적지 않아 됩니다.</p>
+          <p className="section-hint">이름은 적지 않아도 됩니다.</p>
           <textarea
             value={formData.message}
             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -109,9 +109,9 @@ function App() {
         <section className="form-section">
           <h2 className="section-title">THANK YOU</h2>
           <p className="section-description">
-            2025년, 예배팀 안에서 <strong>가장 고마웠던 사람</strong>은 누구인가요?
+            2025년, 예배팀 안에서 가장 고마웠던 사람은 누구인가요?
           </p>
-          <p className="section-hint">이유가 있다면 함께 곁들여 적어주세요.</p>
+          <p className="section-hint">이유가 있다면 한 줄로 함께 적어주세요.</p>
           <textarea
             value={formData.thankYou}
             onChange={(e) => setFormData({ ...formData, thankYou: e.target.value })}
