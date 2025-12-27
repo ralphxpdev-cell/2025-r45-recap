@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { supabase } from './lib/supabase'
 
 function App() {
@@ -10,6 +10,40 @@ function App() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
+  const [timeLeft, setTimeLeft] = useState({
+    days: 0,
+    hours: 0,
+    minutes: 0,
+    seconds: 0
+  })
+
+  // 카운트다운 타이머
+  useEffect(() => {
+    if (!isSubmitted) return
+
+    const targetDate = new Date('2025-12-28T17:30:00+09:00').getTime()
+
+    const updateCountdown = () => {
+      const now = new Date().getTime()
+      const distance = targetDate - now
+
+      if (distance > 0) {
+        setTimeLeft({
+          days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+          minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+          seconds: Math.floor((distance % (1000 * 60)) / 1000)
+        })
+      } else {
+        setTimeLeft({ days: 0, hours: 0, minutes: 0, seconds: 0 })
+      }
+    }
+
+    updateCountdown()
+    const interval = setInterval(updateCountdown, 1000)
+
+    return () => clearInterval(interval)
+  }, [isSubmitted])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -46,12 +80,43 @@ function App() {
     return (
       <div className="min-h-screen bg-r45-black text-r45-white relative">
         <div className="min-h-screen flex flex-col justify-center items-center text-center p-8">
-          <h2 className="font-bebas text-4xl md:text-6xl lg:text-8xl tracking-super-wide mb-4 gradient-r45">
-            제출 완료!
+          <h2 className="font-bebas text-3xl md:text-5xl lg:text-6xl tracking-super-wide mb-6 text-r45-white">
+            제출이 완료되었습니다
           </h2>
-          <p className="text-xl text-r45-gray mb-12">
-            소중한 의견 감사합니다.
+          <p className="text-2xl md:text-3xl mb-16 gradient-r45">
+            2025 R45 RECAP 에서 만나요 😊
           </p>
+
+          {/* Countdown Timer */}
+          <div className="mb-12 space-y-6">
+            <div className="flex items-center justify-center gap-3 text-5xl md:text-6xl lg:text-7xl font-bebas">
+              <svg className="w-12 h-12 md:w-16 md:h-16 text-r45-gray" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <span className="text-r45-white">
+                {String(timeLeft.days).padStart(2, '0')}일{' '}
+                {String(timeLeft.hours).padStart(2, '0')}:
+                {String(timeLeft.minutes).padStart(2, '0')}:
+                {String(timeLeft.seconds).padStart(2, '0')}
+              </span>
+            </div>
+
+            <div className="space-y-2 text-lg md:text-xl text-r45-gray">
+              <p className="flex items-center justify-center gap-2">
+                <span>📅</span>
+                <span>2025년 12월 28일 토요일</span>
+              </p>
+              <p className="flex items-center justify-center gap-2">
+                <span>⏰</span>
+                <span>저녁 17:30</span>
+              </p>
+              <p className="flex items-center justify-center gap-2">
+                <span>📍</span>
+                <span>쿵푸짬뽕</span>
+              </p>
+            </div>
+          </div>
+
           <button
             onClick={() => setIsSubmitted(false)}
             className="font-bebas text-base tracking-super-wide px-12 py-4 bg-transparent text-r45-white border-2 border-r45-white cursor-pointer transition-all duration-300 hover:bg-r45-white hover:text-r45-black"
