@@ -4,6 +4,7 @@ import { supabase } from './lib/supabase'
 
 function App() {
   const [formData, setFormData] = useState({
+    name: '',
     giftKeyword: '',
     message: '',
     thankYou: ''
@@ -18,19 +19,22 @@ function App() {
     try {
       const { error } = await supabase
         .from('r45_recap_2025')
-        .insert([
+        .upsert([
           {
+            name: formData.name,
             gift_keyword: formData.giftKeyword,
             message: formData.message,
             thank_you: formData.thankYou,
-            created_at: new Date().toISOString()
+            updated_at: new Date().toISOString()
           }
-        ])
+        ], {
+          onConflict: 'name'
+        })
 
       if (error) throw error
 
       setIsSubmitted(true)
-      setFormData({ giftKeyword: '', message: '', thankYou: '' })
+      setFormData({ name: '', giftKeyword: '', message: '', thankYou: '' })
     } catch (error) {
       console.error('Error submitting form:', error)
       alert('제출 중 오류가 발생했습니다. 다시 시도해주세요.')
@@ -71,6 +75,23 @@ function App() {
 
       {/* Form Section */}
       <form onSubmit={handleSubmit} className="form-container">
+        {/* Name Section */}
+        <section className="form-section">
+          <h2 className="section-title">YOUR NAME</h2>
+          <p className="section-description">
+            당신의 이름을 알려주세요.
+          </p>
+          <p className="section-hint">같은 이름으로 재제출 시 이전 답변이 수정됩니다.</p>
+          <input
+            type="text"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            placeholder="이름을 입력하세요"
+            className="form-input"
+            required
+          />
+        </section>
+
         {/* Gift Keyword Section */}
         <section className="form-section">
           <h2 className="section-title">YOUR GIFT KEYWORD</h2>
