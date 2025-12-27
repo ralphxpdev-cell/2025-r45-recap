@@ -1,4 +1,41 @@
-# Vercel 환경변수 설정 가이드
+# Vercel 배포 및 Supabase 설정 가이드
+
+## 🔴 1단계: Supabase 테이블 생성 (필수!)
+
+배포 전에 **반드시** Supabase에서 테이블을 생성해야 합니다.
+
+### Supabase SQL Editor에서 실행:
+
+```sql
+-- 테이블 생성
+CREATE TABLE r45_recap_2025 (
+  id BIGSERIAL PRIMARY KEY,
+  name TEXT NOT NULL UNIQUE,
+  gift_keyword TEXT NOT NULL,
+  message TEXT NOT NULL,
+  thank_you TEXT NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- 인덱스 생성 (성능 향상)
+CREATE INDEX idx_r45_recap_name ON r45_recap_2025(name);
+
+-- Row Level Security 활성화
+ALTER TABLE r45_recap_2025 ENABLE ROW LEVEL SECURITY;
+
+-- 누구나 데이터 삽입/수정 가능하도록 정책 추가
+CREATE POLICY "Anyone can upsert" ON r45_recap_2025
+  FOR ALL
+  USING (true)
+  WITH CHECK (true);
+```
+
+**중요**: `name` 필드가 `UNIQUE`로 설정되어 있어서, 같은 이름으로 재제출 시 자동으로 덮어쓰기됩니다.
+
+---
+
+## 🔵 2단계: Vercel 환경변수 설정 가이드
 
 ## Vercel Dashboard에서 환경변수 추가하기
 
