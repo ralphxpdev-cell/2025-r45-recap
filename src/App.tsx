@@ -104,7 +104,7 @@ function App() {
             <div className="space-y-2 text-lg md:text-xl text-r45-gray">
               <p className="flex items-center justify-center gap-2">
                 <span>📅</span>
-                <span>2025년 12월 28일 토요일</span>
+                <span>2025년 12월 28일 일요일</span>
               </p>
               <p className="flex items-center justify-center gap-2">
                 <span>⏰</span>
