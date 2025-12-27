@@ -1,1 +1,11 @@
-# 2025-r45-recap
+
+  # Survey Page Design
+
+  This is a code bundle for Survey Page Design. The original project is available at https://www.figma.com/design/we151RcC2Um88I33j6eA2v/Survey-Page-Design.
+
+  ## Running the code
+
+  Run `npm i` to install the dependencies.
+
+  Run `npm run dev` to start the development server.
+  
